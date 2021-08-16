@@ -28,7 +28,8 @@ const db = mysql.createConnection(
 
 const operations = {
   "View Employees": viewEmployees,
-  "View Departments": viewDepartments, 
+  "View Departments": viewDepartments,
+  "View Roles": viewRoles,  
   "Exit App": process.exit
 }
 
@@ -56,6 +57,23 @@ function viewDepartments() {
   )};
 
   function viewEmployees() {
-    console.log("You did it!")
-    // db.query("SELECT * FROM employee")
+    let query = `SELECT * FROM employee`
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    console.log("\n Employees")
+    console.table(res);
+    console.log("Employees viewed!\n");
+  }
+  )
+  }
+
+  function viewRoles() {
+    let query = `SELECT * FROM role`
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    console.log("\n Roles")
+    console.table(res);
+    console.log("Roles viewed!\n");
+  }
+  )
   }
