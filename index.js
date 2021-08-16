@@ -1,6 +1,5 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const {employeeOperations} = require('./lib/employee')
 
 // Connect to database
 const db = mysql.createConnection(
@@ -15,12 +14,22 @@ const db = mysql.createConnection(
     console.log(`Connected to the company_db database.`)
   );
 
+  db.connect(err => {
+    if (err) throw err;
+    afterConnection();
+  });
+  
+  // function after connection is established and welcome image shows 
+  afterConnection = () => {
+    console.log("!_______!EMPLOYEE MANAGER!_______!")
+ 
+    mainSelection();
+  };
 
 const operations = {
-    ...employeeOperations,
-    
-    
-    "Exit App": process.exit
+  "View Employees": viewEmployees,
+  "View Departments": viewDepartments, 
+  "Exit App": process.exit
 }
 
 
@@ -33,8 +42,20 @@ function mainSelection(){
       choices: Object.keys(operations)
     })
     .then( ({ task })=> operations[task]() )
-    .then(() => whatWouldLikeToDo());
+    .then(() => mainSelection());
 }
 
-mainSelection();
+function viewDepartments() {
+  let query = `SELECT * FROM department`
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    console.log("\n Departments")
+    console.table(res);
+    console.log("Departments viewed!\n");
+  }
+  )};
 
+  function viewEmployees() {
+    console.log("You did it!")
+    // db.query("SELECT * FROM employee")
+  }
