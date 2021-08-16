@@ -24,7 +24,7 @@ const operations = {
 }
 
 
-function whatWouldLikeToDo(){
+function mainSelection(){
     inquirer
     .prompt({
       type: "list",
@@ -36,10 +36,5 @@ function whatWouldLikeToDo(){
     .then(() => whatWouldLikeToDo());
 }
 
-function main() {
-
-   whatWouldLikeToDo();
-  }
-
-  main()
+mainSelection();
 
