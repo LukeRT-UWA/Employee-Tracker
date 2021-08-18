@@ -1,13 +1,10 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
-// Connect to database
 const db = mysql.createConnection(
     {
       host: 'localhost',
-      // MySQL username,
       user: 'root',
-      // MySQL password
       password: 'Password01',
       database: 'company_db'
     },
@@ -19,9 +16,16 @@ const db = mysql.createConnection(
     afterConnection();
   });
   
-  // function after connection is established and welcome image shows 
   afterConnection = () => {
-    console.log("!_______!EMPLOYEE MANAGER!_______!")
+    console.log(`
+    ╔═══╗─────╔╗──────────────╔═╗╔═╗
+    ║╔══╝─────║║──────────────║║╚╝║║
+    ║╚══╦╗╔╦══╣║╔══╦╗─╔╦══╦══╗║╔╗╔╗╠══╦═╗╔══╦══╦══╦═╗
+    ║╔══╣╚╝║╔╗║║║╔╗║║─║║║═╣║═╣║║║║║║╔╗║╔╗╣╔╗║╔╗║║═╣╔╝
+    ║╚══╣║║║╚╝║╚╣╚╝║╚═╝║║═╣║═╣║║║║║║╔╗║║║║╔╗║╚╝║║═╣║
+    ╚═══╩╩╩╣╔═╩═╩══╩═╗╔╩══╩══╝╚╝╚╝╚╩╝╚╩╝╚╩╝╚╩═╗╠══╩╝
+    ───────║║──────╔═╝║─────────────────────╔═╝║
+    ───────╚╝──────╚══╝─────────────────────╚══╝`)
  
     mainSelection();
   };
@@ -43,7 +47,6 @@ function mainSelection(){
       choices: Object.keys(operations)
     })
     .then( ({ task })=> operations[task]() )
-    .then(() => mainSelection());
 }
 
 function viewDepartments() {
@@ -53,6 +56,7 @@ function viewDepartments() {
     console.log("\n Departments")
     console.table(res);
     console.log("Departments viewed!\n");
+    mainSelection()
   }
   )};
 
@@ -63,9 +67,9 @@ function viewDepartments() {
     console.log("\n Employees")
     console.table(res);
     console.log("Employees viewed!\n");
+    mainSelection()
   }
-  )
-  }
+  )}
 
   function viewRoles() {
     let query = `SELECT * FROM role`
@@ -74,6 +78,6 @@ function viewDepartments() {
     console.log("\n Roles")
     console.table(res);
     console.log("Roles viewed!\n");
+    mainSelection()
   }
-  )
-  }
+)}
