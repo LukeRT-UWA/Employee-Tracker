@@ -34,7 +34,8 @@ const operations = {
   "View Employees": viewEmployees,
   "View Departments": viewDepartments,
   "View Roles": viewRoles,
-  "Add a Department":addDepartment,  
+  "Add a Department":addDepartment,
+  "Add a Role":addRole,    
   "Exit App": process.exit
 }
 
@@ -101,3 +102,33 @@ function addDepartment() {
       mainSelection()
     })
   })}
+
+  function addRole() {
+    inquirer
+     .prompt([
+        {
+            type: 'Input',
+            message: 'What is the title of the role you wish to add?',
+            name: 'roleTitle',
+        },
+        {
+          type: 'Input',
+          message: 'What is the Salary of this role?',
+          name: 'roleSalary',
+      },
+      {
+        type: 'Input',
+        message: 'What is the department ID of this role?',
+        name: 'roleDeptId',
+    },
+    ])
+    .then(function(answer) {
+      let query =`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
+      
+      db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err,res){
+        if (err) throw err;
+        console.log(`${answer.roleTitle} added to roles`)
+        mainSelection()
+      })
+    })}
+  
