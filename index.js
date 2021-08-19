@@ -98,7 +98,7 @@ function addDepartment() {
     
     db.query(query, answer.department, function (err,res){
       if (err) throw err;
-      console.log(`${answer.department} added to Departments`)
+      console.log(`\n${answer.department} added to Departments\n`)
       mainSelection()
     })
   })}
@@ -127,7 +127,7 @@ function addDepartment() {
       
       db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err,res){
         if (err) throw err;
-        console.log(`${answer.roleTitle} added to roles`)
+        console.log(`\n${answer.roleTitle} added to roles\n`)
         mainSelection()
       })
     })}
