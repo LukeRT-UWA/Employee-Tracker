@@ -36,6 +36,7 @@ const operations = {
   "View Roles": viewRoles,
   "Add a Department": addDepartment,
   "Add a Role": addRole,
+  "Add an Employee": addEmployee,
   "Exit App": process.exit
 }
 
@@ -121,10 +122,13 @@ function addRole() {
         name: 'roleSalary',
       },
       {
-        type: 'Input',
-        message: 'What is the department ID of this role?',
-        name: 'roleDeptId',
-      },
+        type: 'List',
+        message: 'What is the Department name of this role?',
+        name: 'roleDept',
+        choices: db.query((`SELECT title FROM role`), function (err, res) {
+          if (err) throw err;
+          return JSON.stringify(res);
+      })},
     ])
     .then(function (answer) {
       let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
@@ -136,3 +140,36 @@ function addRole() {
       })
     })
 }
+
+function addEmployee() {
+
+inquirer
+.prompt([
+  {
+    type: 'Input',
+    message: `What is this employee's first name?`,
+    name: 'employeeFirstName',
+  },
+  {
+    type: 'Input',
+    message: `What is this employee's last name?`,
+    name: 'employeeLastName',
+  },
+  {
+    type: 'List',
+    message: `What is this employee's role?`,
+    name: 'roleDeptId', 
+  },
+
+])
+.then(function (answer) {
+  let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
+
+  db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err, res) {
+    if (err) throw err;
+    console.log(`\n${answer.roleTitle} added to roles\n`)
+    mainSelection()
+  })
+})
+}
+
