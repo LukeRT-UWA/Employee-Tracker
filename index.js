@@ -33,7 +33,8 @@ const db = mysql.createConnection(
 const operations = {
   "View Employees": viewEmployees,
   "View Departments": viewDepartments,
-  "View Roles": viewRoles,  
+  "View Roles": viewRoles,
+  "Add a Department":addDepartment,  
   "Exit App": process.exit
 }
 
@@ -81,3 +82,22 @@ function viewDepartments() {
     mainSelection()
   }
 )}
+
+function addDepartment() {
+  inquirer
+   .prompt([
+      {
+          type: 'Input',
+          message: 'What department do you want to add?',
+          name: 'department',
+      },
+  ])
+  .then(function(answer) {
+    let query =`INSERT INTO department (name) VALUES (?)`
+    
+    db.query(query, answer.department, function (err,res){
+      if (err) throw err;
+      console.log(`${answer.department} added to Departments`)
+      mainSelection()
+    })
+  })}
