@@ -153,36 +153,50 @@ inquirer
   }
 function addEmployee() {
 
+  let query = `SELECT * FROM role`
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    const roleOptions = res.map(role => ({
+      value: role.id, name: role.title
+    }))
+  
+    console.log(roleOptions)
+    addEmployeePrompt(roleOptions) 
+    
+  })
+
+}
+
+function addEmployeePrompt(roleOptions) {
 inquirer
 .prompt([
   {
-    type: 'Input',
+    type: "input",
     message: `What is this employee's first name?`,
     name: 'employeeFirstName',
   },
   {
-    type: 'Input',
+    type: "input",
     message: `What is this employee's last name?`,
     name: 'employeeLastName',
   },
   {
-    type: 'List',
+    type: "list",
     message: `What is this employee's role?`,
-    name: 'roleDeptId', 
+    name: 'roleDeptId',
+    choices: roleOptions, 
   },
 
 ])
 .then(function (answer) {
-  let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
+  let query = `INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)`
 
-  db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err, res) {
+  db.query(query, [answer.employeeFirstName, answer.employeeLastName, answer.roleDeptId], function (err, res) {
     if (err) throw err;
-    console.log(`\n${answer.roleTitle} added to roles\n`)
+    console.log(`\n${answer.employeeFirstName} added to employees\n`)
     mainSelection()
   })
 })
 }
-
-
 //  const departmentChoices = res.map(data => ({
   // value: data.id, name: data.name
