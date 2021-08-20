@@ -32,7 +32,7 @@ const operations = {
   "Add a Department": addDepartment,
   "Add a Role": addRole,
   "Add an Employee": addEmployee,
-  "Update Emloyee Role": alterEmployeeRole,
+  "Update Employee Role": alterEmployeeRole,
   "Exit App": process.exit
 }
 
