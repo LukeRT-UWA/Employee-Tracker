@@ -109,6 +109,12 @@ function addDepartment() {
 }
 
 function addRole() {
+  // let departmentChoices = db.query((`SELECT name FROM department`), function (err, res) {
+  //   if (err) throw err;
+
+    
+    //use map 
+    //use async
   inquirer
     .prompt([
       {
@@ -125,20 +131,18 @@ function addRole() {
         type: 'List',
         message: 'What is the Department name of this role?',
         name: 'roleDept',
-        choices: db.query((`SELECT title FROM role`), function (err, res) {
-          if (err) throw err;
-          return JSON.stringify(res);
-      })},
+        choices: 1,
+      },
     ])
-    .then(function (answer) {
-      let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
+    // .then(function (answer) {
+    //   let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
 
-      db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err, res) {
-        if (err) throw err;
-        console.log(`\n${answer.roleTitle} added to roles\n`)
-        mainSelection()
-      })
-    })
+    //   db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err, res) {
+    //     if (err) throw err;
+    //     console.log(`\n${answer.roleTitle} added to roles\n`)
+    //     mainSelection()
+    //   })
+    // })
 }
 
 function addEmployee() {
