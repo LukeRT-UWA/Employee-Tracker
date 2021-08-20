@@ -19,7 +19,7 @@ db.connect(err => {
 afterConnection = () => {
   console.log(`
   ************************
-  *** EMPLOYEE MANAGER ***
+  *** EMPLOYEE TRACKER ***
   ************************\n`)
 
   mainSelection();
@@ -63,9 +63,10 @@ function viewDepartments() {
 };
 
 function viewEmployees() {
-  let query = `SELECT employee.first_name AS "First Name", employee.last_name AS "Last Name", role.title AS "Role Title", role.salary AS Salary, department.name AS "Department Name", manager_id 
-  FROM employee 
-  JOIN role ON employee.role_id = role.id
+  let query = `SELECT e.id, e.first_name AS "First Name", e.last_name AS "Last Name", role.title AS "Role Title", role.salary AS Salary, department.name AS "Department Name", CONCAT (em.first_name,' ',em.last_name) AS Manager
+  FROM employee e
+  LEFT OUTER JOIN employee em ON e.manager_id = em.id
+  JOIN role ON e.role_id = role.id
   JOIN department ON role.department_id = department.id`
   db.query(query, function (err, res) {
     if (err) throw err;
@@ -78,7 +79,7 @@ function viewEmployees() {
 }
 
 function viewRoles() {
-  let query = `SELECT role.title AS "Job Title", role.id AS "Role ID", role.salary AS "Role Salary", department.name AS "Department Name", manager_id AS "Manager"
+  let query = `SELECT role.title AS "Job Title", role.id AS "Role ID", role.salary AS "Role Salary", department.name AS "Department Name"
   FROM role
   JOIN department ON role.department_id = department.id`
   db.query(query, function (err, res) {
