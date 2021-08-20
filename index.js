@@ -42,14 +42,14 @@ function mainSelection() {
     .prompt({
       type: "list",
       name: "task",
-      message: "Would you like to do?",
+      message: "What would you like to do?",
       choices: Object.keys(operations)
     })
     .then(({ task }) => operations[task]())
 }
 //views-----------------------------------------------------
 function viewDepartments() {
-  let query = `SELECT * FROM department`
+  let query = `SELECT id AS "Department ID", name AS "Department Name" FROM department`
   db.query(query, function (err, res) {
     if (err) throw err;
     console.log("\n Departments")
