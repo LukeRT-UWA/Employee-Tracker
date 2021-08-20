@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-
+//Connect to db
 const db = mysql.createConnection(
   {
     host: 'localhost',
@@ -10,12 +10,12 @@ const db = mysql.createConnection(
   },
   console.log(`Connected to the company_db database.`)
 );
-
+//Run function on connection to database
 db.connect(err => {
   if (err) throw err;
   afterConnection();
 });
-
+//print ascii title after connection
 afterConnection = () => {
   console.log(`
   ************************
@@ -24,7 +24,18 @@ afterConnection = () => {
 
   mainSelection();
 };
-
+//Parent list for selecting functions
+function mainSelection() {
+  inquirer
+    .prompt({
+      type: "list",
+      name: "task",
+      message: "What would you like to do?",
+      choices: Object.keys(operations)
+    })
+    .then(({ task }) => operations[task]())
+}
+//Switch statement options and associated functions
 const operations = {
   "View Employees": viewEmployees,
   "View Roles": viewRoles,
@@ -37,16 +48,7 @@ const operations = {
 }
 
 
-function mainSelection() {
-  inquirer
-    .prompt({
-      type: "list",
-      name: "task",
-      message: "What would you like to do?",
-      choices: Object.keys(operations)
-    })
-    .then(({ task }) => operations[task]())
-}
+
 //views-----------------------------------------------------
 function viewDepartments() {
   let query = `SELECT id AS "Department ID", name AS "Department Name" FROM department`
