@@ -244,8 +244,8 @@ function alterEmployeePrompt(employeeOptions, roleOptions) {
   },
 ])
 .then(function (answer) {
-  console.log(answer.employeeFullName)
   console.log(answer.roleSelection)
+  console.log(answer.employeeFullName)
   let query = `UPDATE employee SET role_id = ? WHERE id = ?`
 
   db.query(query, [answer.roleSelection, answer.employeeFullName], function (err, res) {
