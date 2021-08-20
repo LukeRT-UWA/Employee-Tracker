@@ -27,8 +27,8 @@ afterConnection = () => {
 
 const operations = {
   "View Employees": viewEmployees,
-  "View Departments": viewDepartments,
   "View Roles": viewRoles,
+  "View Departments": viewDepartments,
   "Add a Department": addDepartment,
   "Add a Role": addRole,
   "Add an Employee": addEmployee,
@@ -46,7 +46,7 @@ function mainSelection() {
     })
     .then(({ task }) => operations[task]())
 }
-
+//views-----------------------------------------------------
 function viewDepartments() {
   let query = `SELECT * FROM department`
   db.query(query, function (err, res) {
@@ -82,7 +82,7 @@ function viewRoles() {
   }
   )
 }
-
+//adds-----------------------------------------------------
 function addDepartment() {
   inquirer
     .prompt([
@@ -198,5 +198,7 @@ inquirer
   })
 })
 }
-//  const departmentChoices = res.map(data => ({
-  // value: data.id, name: data.name
+
+//alters-----------------------------------------------------
+
+//deletes-----------------------------------------------------
