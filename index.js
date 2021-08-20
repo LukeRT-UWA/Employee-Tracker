@@ -32,6 +32,7 @@ const operations = {
   "Add a Department": addDepartment,
   "Add a Role": addRole,
   "Add an Employee": addEmployee,
+  "Update Emloyee Role": alterEmployeeRole,
   "Exit App": process.exit
 }
 
@@ -108,7 +109,7 @@ function addRole() {
   let query = `SELECT * FROM department`
   db.query(query, function (err, res) {
     if (err) throw err;
-    const departmentOptions = res.map(department => ({
+    let departmentOptions = res.map(department => ({
       value: department.id, name: department.name
     }))
   
@@ -156,7 +157,7 @@ function addEmployee() {
   let query = `SELECT * FROM role`
   db.query(query, function (err, res) {
     if (err) throw err;
-    const roleOptions = res.map(role => ({
+    let roleOptions = res.map(role => ({
       value: role.id, name: role.title
     }))
   
@@ -200,5 +201,58 @@ inquirer
 }
 
 //alters-----------------------------------------------------
+function alterEmployeeRole(){
 
+  let query = `SELECT * FROM employee`
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    let employeeOptions = res.map(employee => ({
+      value: employee.id, name:  `${employee.first_name} ${employee.last_name}`
+    }))   
+  
+  let query = `SELECT * FROM role`
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    let roleOptions = res.map(role => ({
+      value: role.id, name: role.title
+    }))
+  
+    console.log(employeeOptions)
+    console.log(roleOptions)
+    alterEmployeePrompt(employeeOptions, roleOptions) 
+    
+  })
+})
+  
+}
+
+function alterEmployeePrompt(employeeOptions, roleOptions) {
+
+  inquirer
+.prompt([
+  {
+    type: "list",
+    message: `Which employee do you want to update?`,
+    name: 'employeeFullName',
+    choices: employeeOptions,
+  },
+  {
+    type: "list",
+    message: `What role do you want to assign this employee to?`,
+    name: 'roleSelection',
+    choices: roleOptions,
+  },
+])
+.then(function (answer) {
+  console.log(answer.employeeFullName)
+  console.log(answer.roleSelection)
+  let query = `UPDATE employee SET role_id = ? WHERE id = ?`
+
+  db.query(query, [answer.roleSelection, answer.employeeFullName], function (err, res) {
+    if (err) throw err;
+    console.log(`\nRole updated for selected employee\n`)
+    mainSelection()
+  })
+})
+}
 //deletes-----------------------------------------------------
