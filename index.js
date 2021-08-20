@@ -76,7 +76,9 @@ function viewEmployees() {
 }
 
 function viewRoles() {
-  let query = `SELECT * FROM role`
+  let query = `SELECT role.title AS "Job Title", role.id AS "Role ID", role.salary AS "Role Salary", department.name AS "Department Name"
+  FROM role
+  JOIN department ON role.department_id = department.id`
   db.query(query, function (err, res) {
     if (err) throw err;
     console.log("\n Roles")
