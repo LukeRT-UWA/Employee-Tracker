@@ -109,42 +109,53 @@ function addDepartment() {
 }
 
 function addRole() {
-  // let departmentChoices = db.query((`SELECT name FROM department`), function (err, res) {
-  //   if (err) throw err;
-
+ 
+  let query = `SELECT * FROM department`
+  db.query(query, function (err, res) {
+    if (err) throw err;
+    const departmentOptions = res.map(department => ({
+      value: department.id, name: department.name
+    }))
+  
+    console.log(departmentOptions)
+    addRolePrompt(departmentOptions) 
     
-    //use map 
-    //use async
-  inquirer
+  })
+  
+  
+ 
+}
+
+function addRolePrompt(departmentOptions) {
+inquirer
     .prompt([
       {
-        type: 'Input',
+        type: "input",
         message: 'What is the title of the role you wish to add?',
         name: 'roleTitle',
       },
       {
-        type: 'Input',
+        type: "input",
         message: 'What is the Salary of this role?',
         name: 'roleSalary',
       },
       {
-        type: 'List',
+        type: "list",
         message: 'What is the Department name of this role?',
         name: 'roleDept',
-        choices: 1,
+        choices: departmentOptions
       },
     ])
-    // .then(function (answer) {
-    //   let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
+    .then(function (answer) {
+      let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
 
-    //   db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err, res) {
-    //     if (err) throw err;
-    //     console.log(`\n${answer.roleTitle} added to roles\n`)
-    //     mainSelection()
-    //   })
-    // })
-}
-
+      db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err, res) {
+        if (err) throw err;
+        console.log(`\n${answer.roleTitle} added to roles\n`)
+        mainSelection()
+      })
+    })
+  }
 function addEmployee() {
 
 inquirer
@@ -177,3 +188,6 @@ inquirer
 })
 }
 
+
+//  const departmentChoices = res.map(data => ({
+  // value: data.id, name: data.name
