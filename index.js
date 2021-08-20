@@ -53,7 +53,7 @@ function viewDepartments() {
     if (err) throw err;
     console.log("\n Departments")
     console.table(res);
-    console.log("Departments viewed!\n");
+    console.log("Departments viewed\n");
     mainSelection()
   }
   )
@@ -65,7 +65,7 @@ function viewEmployees() {
     if (err) throw err;
     console.log("\n Employees")
     console.table(res);
-    console.log("Employees viewed!\n");
+    console.log("Employees viewed\n");
     mainSelection()
   }
   )
@@ -77,7 +77,7 @@ function viewRoles() {
     if (err) throw err;
     console.log("\n Roles")
     console.table(res);
-    console.log("Roles viewed!\n");
+    console.log("Roles viewed\n");
     mainSelection()
   }
   )
@@ -137,14 +137,14 @@ inquirer
       {
         type: "list",
         message: 'What is the Department name of this role?',
-        name: 'roleDept',
+        name: 'roleDeptID',
         choices: departmentOptions
       },
     ])
     .then(function (answer) {
       let query = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`
-
-      db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptId], function (err, res) {
+      console.log(answer.roleDeptID)
+      db.query(query, [answer.roleTitle, answer.roleSalary, answer.roleDeptID], function (err, res) {
         if (err) throw err;
         console.log(`\n${answer.roleTitle} added to roles\n`)
         mainSelection()
@@ -193,7 +193,7 @@ inquirer
 
   db.query(query, [answer.employeeFirstName, answer.employeeLastName, answer.roleDeptId], function (err, res) {
     if (err) throw err;
-    console.log(`\n${answer.employeeFirstName} added to employees\n`)
+    console.log(`\n${answer.employeeFirstName} ${answer.employeeLastName} added to employees\n`)
     mainSelection()
   })
 })
