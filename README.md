@@ -16,7 +16,7 @@ An SQL based application that records and displays employee information.
 Clone and run locally, requires mysql, console.table and inquirer packages.
 
 ## Usage
-Usage video:
+https://user-images.githubusercontent.com/84198206/130309937-dcade2b3-847f-4c72-9c61-2635046af235.mp4
 
 ## License
 MIT
